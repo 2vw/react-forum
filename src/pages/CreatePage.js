@@ -1,11 +1,12 @@
+// src/pages/CreatePage.js
 import React, { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import HamburgerMenu from '../HamburgerCode'; // Import the hamburger menu component
-import '../HamburgerMenu.css'; // CSS for hamburger menu
+import HamburgerMenu from '../HamburgerCode';  // Import the hamburger menu component
+import '../HamburgerMenu.css';  // Import the CSS for styling the hamburger
 import '../App.css';
 
 function CreatePage() {
-  const [formData, setFormData] = useState({ title: '', message: '' });
+  const [formData, setFormData] = useState({ title: '', message: '', tags: '' });
   const [captchaValue, setCaptchaValue] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -28,33 +29,34 @@ function CreatePage() {
       return;
     }
 
-    // Prepare data for submission
-    const messageData = {
-      title: formData.title,
-      message: formData.message,
-    };
+    // Handle form submission
+    console.log("Form Data Submitted: ", formData);
+    console.log("Captcha Token: ", captchaValue);
 
+    // Add your API call here to save the thread with tags
     try {
-      // Send POST request to the backend API
       const response = await fetch('http://localhost:5000/api/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(messageData),
+        body: JSON.stringify({
+          title: formData.title,
+          message: formData.message,
+          tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [], // Only add tags if provided
+          comments: [],
+          captcha: captchaValue,
+        }),
       });
 
       if (response.ok) {
-        const result = await response.json();
-        document.getElementById("view-post").href = `/view/${result._id}`;
-        console.log("Form Data Submitted: ", result);
         setFormSubmitted(true);
+        setFormData({ title: '', message: '', tags: ''}); // Reset form data
       } else {
-        throw new Error("Failed to submit form");
+        alert('Failed to create thread. Please try again.');
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error submitting form. Please try again.");
+      console.error("Error creating post:", error);
     }
   };
 
@@ -63,7 +65,7 @@ function CreatePage() {
       <main>
         {formSubmitted ? (
           <div className="form-submitted">
-            <a id="view-post">View Post</a>
+            <p>Thank you! Your form has been submitted.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
@@ -74,19 +76,29 @@ function CreatePage() {
             <div>
               <input
                 type="text"
-                name="title"  // Ensure this matches the key in your state
-                value={formData.title}  // Update to formData.title
+                name="title"
+                value={formData.title}
                 onChange={handleInputChange}
                 required
               />
             </div>
-            <h3>Text</h3>
+            <h3>Message</h3>
             <div>
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
                 required
+              />
+            </div>
+            <h3>Tags (comma separated)</h3>
+            <div>
+              <input
+                type="text"
+                name="tags"
+                value={formData.tags}
+                onChange={handleInputChange}
+                placeholder="e.g. React, JavaScript, Web Development"
               />
             </div>
             <ReCAPTCHA

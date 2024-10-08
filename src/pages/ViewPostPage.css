@@ -36,3 +36,11 @@
     margin: 0;
 }
   
+
+/* Add this to your BrowsePostsPage.css and ViewPostPage.css */
+.post-tags {
+    font-size: 0.9em;
+    color: #007bff; /* Bootstrap primary color */
+    margin-top: 5px; /* Space above the tags */
+  }
+  

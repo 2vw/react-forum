@@ -1,21 +1,32 @@
 /* src/pages/BrowsePostsPage.css */
-.browse-posts {
-    padding: 20px;
-}
-  
-.no-posts {
-    font-size: 1.2em;
-    color: #888; /* Grey color for the message */
-    margin: 20px 0;
-    text-align: center; /* Center the message */
+.search-bar {
+  margin: 20px 0;
 }
 
-.browse-posts .post {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-    padding: 10px;
-    margin: 10px;
-    width: calc(33.33% - 20px);
-    float: left;
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust to 3 columns */
+  gap: 20px;
+}
+
+.post-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: left;
+  background-color: #f9f9f9;
+}
+
+.post-tags {
+  color: #555;
+  font-size: 14px;
+}
+

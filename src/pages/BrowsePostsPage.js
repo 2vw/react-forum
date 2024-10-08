@@ -37,10 +37,16 @@ const BrowsePostsPage = () => {
       const lowerCaseQuery = query.toLowerCase();
       const filtered = posts.filter(post =>
         post.title.toLowerCase().includes(lowerCaseQuery) ||
-        post.message.toLowerCase().includes(lowerCaseQuery)
+        post.message.toLowerCase().includes(lowerCaseQuery) ||
+        (post.tags && post.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))) // Search by tags
       );
       setFilteredPosts(filtered);
     }
+  };
+
+  const truncateMessage = (message) => {
+    const words = message.split(' ');
+    return words.length > 15 ? words.slice(0, 15).join(' ') + '...' : message;
   };
 
   if (loading) {
@@ -62,7 +68,10 @@ const BrowsePostsPage = () => {
           {filteredPosts.map(post => (
             <div className="post-card" key={post._id}>
               <h2>{post.title}</h2>
-              <p>{post.message}</p>
+              <p>{truncateMessage(post.message)}</p> {/* Truncated message */}
+              {post.tags && post.tags.length > 0 && ( // Conditionally render tags
+                <p className="post-tags">#{post.tags.join(', #')}</p>
+              )}
               <a href={`/view/${post._id}`} className="view-post-link">View Post</a>
             </div>
           ))}

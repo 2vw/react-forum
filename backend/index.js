@@ -21,7 +21,8 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 const messageSchema = new mongoose.Schema({
     title: { type: String, required: true },
     message: { type: String, required: true },
-    comments: [{ text: String }]
+    comments: [{ text: String }],
+    tags: { type: [String], default: [] },
 });
 
 const Message = mongoose.model('Message', messageSchema);
@@ -32,7 +33,6 @@ app.post('/api/messages', async (req, res) => {
         const newMessage = new Message(req.body);
         await newMessage.save();
         res.status(201).json(newMessage);
-        res.json({ id: newMessage._id });
     } catch (error) {
         res.status(400).json({ message: "Error saving message", error });
     }

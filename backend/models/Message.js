@@ -10,7 +10,8 @@ const CommentSchema = new mongoose.Schema({
 const MessageSchema = new mongoose.Schema({
   title: { type: String, required: true },
   message: { type: String, required: true },
-  comments: [CommentSchema]  // Add comments field
+  comments: [CommentSchema],  // Add comments field
+  tags: { type: [String], default: [] },
 });
 
 const Message = mongoose.model('Message', MessageSchema);
