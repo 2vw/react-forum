@@ -8,7 +8,7 @@ const ProtectedPage = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const response = await fetch('/api/protected');
+      const response = await fetch('http://localhost:5000/api/protected');
       if (response.ok) {
         setIsAuthenticated(true);
       } else {

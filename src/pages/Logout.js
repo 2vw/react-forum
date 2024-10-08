@@ -7,7 +7,7 @@ const Logout = () => {
 
   useEffect(() => {
     const logoutUser = async () => {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch('http://localhost:5000/api/auth/logout', { method: 'POST' });
       navigate('/login'); // Redirect to login page after logging out
     };
 

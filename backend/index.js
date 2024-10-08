@@ -10,7 +10,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -89,10 +89,6 @@ app.use('/api/auth', authRoutes);
 // Example protected route
 app.get('/api/protected', authMiddleware, (req, res) => {
   res.json({ message: 'You have access to this route', user: req.user });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
 
 app.listen(PORT, () => {
