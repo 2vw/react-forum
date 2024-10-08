@@ -7,6 +7,10 @@ import CreatePage from './pages/CreatePage';
 import BrowsePostsPage from './pages/BrowsePostsPage';
 import ViewPostPage from './pages/ViewPostPage'; // Import View Post Page
 import NotFoundPage from './pages/NotFoundPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import Logout from './pages/Logout';
+import ProtectedPage from './pages/ProtectedPage';
 import HamburgerMenu from './HamburgerCode';
 
 function App() {
@@ -24,7 +28,11 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/create" element={<CreatePage />} />
             <Route path="/browse" element={<BrowsePostsPage />} />
-            <Route path="/view/:id" element={<ViewPostPage />} /> {/* New Route for Viewing Post */}
+            <Route path="/view/:id" element={<ViewPostPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/protected" element={<ProtectedPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

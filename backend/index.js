@@ -3,10 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const authRoutes = require('./authRoutes');
+const cookieParser = require('cookie-parser');
+const authMiddleware = require('./middleware/authMiddleware');
+
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors());
@@ -77,6 +81,18 @@ app.post('/api/comments', async (req, res) => {
       console.error("Error adding comment:", error);
       res.status(500).json({ message: 'Error adding comment' });
     }
+});
+
+// Authentication routes
+app.use('/api/auth', authRoutes);
+
+// Example protected route
+app.get('/api/protected', authMiddleware, (req, res) => {
+  res.json({ message: 'You have access to this route', user: req.user });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 app.listen(PORT, () => {
