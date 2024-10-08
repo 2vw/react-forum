@@ -1,0 +1,70 @@
+/* General container */
+.hamburger-menu {
+    position: relative;
+    padding: 20px;
+}
+
+/* Hamburger icon (3 bars) */
+.hamburger-icon {
+    cursor: pointer;
+    width: 30px;
+    height: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-icon .bar {
+width: 100%;
+height: 4px;
+background-color: #333;
+transition: 0.3s;
+}
+
+/* Rotate and transform the bars when open */
+.hamburger-icon.open .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger-icon.open .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-icon.open .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Menu */
+.menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    background-color: #fff;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.menu.show {
+    display: block;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.menu ul li:hover {
+    background-color: #f0f0f0;
+}

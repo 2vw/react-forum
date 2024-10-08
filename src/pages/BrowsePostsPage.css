@@ -1,0 +1,21 @@
+/* src/pages/BrowsePostsPage.css */
+.browse-posts {
+    padding: 20px;
+}
+  
+.no-posts {
+    font-size: 1.2em;
+    color: #888; /* Grey color for the message */
+    margin: 20px 0;
+    text-align: center; /* Center the message */
+}
+
+.browse-posts .post {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px;
+    width: calc(33.33% - 20px);
+    float: left;
+}
