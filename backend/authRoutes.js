@@ -29,7 +29,6 @@ UserSchema.methods.comparePassword = function (password) {
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
 
-
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET; // Replace with environment variable in production
 
@@ -49,8 +48,8 @@ router.post('/signup', async (req, res) => {
     await newUser.save();
 
     // Generate a JWT token
-    const token = jwt.sign({ id: newUser._id, username: newUser.username }, JWT_SECRET, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true }); // Set token in a cookie
+    const token = jwt.sign({ id: newUser._id, username: newUser.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    localStorage.setItem('token', token); // Set token in localstorage
 
     res.status(201).json({ message: 'Signup successful' });
   } catch (error) {
@@ -67,10 +66,9 @@ router.post('/login', async (req, res) => {
     if (!user || !(await user.comparePassword(password))) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-
     // Generate a JWT token
-    const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: '30d' });
-    res.cookie('token', token, { httpOnly: true }); // Set token in a cookie
+    const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    localStorage.setItem('token', token); // Set token in localstorage
 
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
@@ -80,7 +78,7 @@ router.post('/login', async (req, res) => {
 
 // Logout route
 router.post('/logout', (req, res) => {
-  res.clearCookie('token'); // Clear the cookie
+  localStorage.removeItem('token'); // Clear the localstorage
   res.status(200).json({ message: 'Logout successful' });
 });
 
