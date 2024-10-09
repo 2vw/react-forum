@@ -1,5 +1,8 @@
 // src/pages/BrowsePostsPage.js
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import HamburgerMenu from '../HamburgerCode';
+import LoadingModal from '../components/LoadingModal';
 import SearchBar from '../components/SearchBar';
 import './BrowsePostsPage.css'; // Import the CSS file for styling
 
@@ -50,7 +53,7 @@ const BrowsePostsPage = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{loading && <LoadingModal />} {/* Show modal if loading is true */}</div>;
   }
 
   if (error) {
