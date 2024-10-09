@@ -1,6 +1,9 @@
 // src/pages/ViewPostPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import './ViewPostPage.css';
+import '../components/LoadingModal.css';
+import LoadingModal from '../components/LoadingModal';
 
 const ViewPostPage = () => {
   const { id } = useParams();
@@ -55,7 +58,7 @@ const ViewPostPage = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{loading && <LoadingModal />} {/* Show modal if loading is true */}</div>;
   }
 
   if (error) {
@@ -67,27 +70,33 @@ const ViewPostPage = () => {
   }
 
   return (
-    <div className="view-post">
-      <h1>{post.title}</h1>
-      <p>{post.message}</p>
-
-      <h2>Comments</h2>
-      <ul>
-        {post.comments.map((comment) => (
-          <li key={comment._id}>
-            <strong>{comment.username}</strong>: {comment.text}
-          </li>
-        ))}
-      </ul>
-
+    <div>
+      <div className="view-post">
+        <div class="post-title">
+          <h1>{post.title}</h1>
+        </div>
+        <div class="post-message">
+          <p>{post.message}</p>
+        </div>
+      </div>
+      <div class="comments-section">
+        <h2 class="comments">Comments</h2>
+        <ul class="comments-list">
+          {post.comments.map((comment) => (
+            <li key={comment._id}>
+              <strong></strong>: {comment.text}
+            </li>
+          ))}
+        </ul>
+      </div>
       <form onSubmit={handleCommentSubmit}>
-        <textarea
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-          placeholder="Add a comment"
-          required
-        />
-        <button type="submit">Submit Comment</button>
+          <textarea
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Add a comment"
+            required
+          />
+          <button type="submit">Submit Comment</button>
       </form>
     </div>
   );};

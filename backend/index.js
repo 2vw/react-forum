@@ -27,13 +27,13 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 const messageSchema = new mongoose.Schema({
     title: { type: String, required: true },
     message: { type: String, required: true },
-    comments: [{ text: String }],
+    comments: [{ text: String, username: String, createdAt: Date, author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } }],
     tags: { type: [String], default: [] },
     createdAt: { type: Date, default: Date.now },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        default: { username: 'Anonymous' }
+        username: { type: String, required: true },
     },
 });
 
@@ -90,7 +90,7 @@ app.post('/api/comments', async (req, res) => {
       }
   
       // Add the new comment to the post's comments array
-      message.comments.push({ username, text });
+      message.comments.push({ text, username, createdAt: new Date() });
       await message.save();
   
       res.status(201).json(message); // Return the updated message
