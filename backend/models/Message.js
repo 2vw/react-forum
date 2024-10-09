@@ -12,6 +12,7 @@ const MessageSchema = new mongoose.Schema({
   message: { type: String, required: true },
   comments: [CommentSchema],  // Add comments field
   tags: { type: [String], default: [] },
+  createdAt: { type: Date, default: Date.now }
 });
 
 const Message = mongoose.model('Message', MessageSchema);

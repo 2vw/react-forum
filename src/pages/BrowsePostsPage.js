@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import HamburgerMenu from '../HamburgerCode';
 import LoadingModal from '../components/LoadingModal';
 import SearchBar from '../components/SearchBar';
+import io from 'socket.io-client'; // Import socket.io-client
 import './BrowsePostsPage.css'; // Import the CSS file for styling
 
 const BrowsePostsPage = () => {
@@ -11,7 +12,7 @@ const BrowsePostsPage = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -30,7 +31,20 @@ const BrowsePostsPage = () => {
       }
     };
 
-    fetchPosts();
+    fetchPosts(); // Initial fetch
+
+    // Initialize socket connection to the server
+    const socket = io('http://localhost:5000'); // Ensure this matches your server URL
+
+    // Listen for new posts from the server
+    socket.on('newPost', (newPost) => {
+      setPosts((prevPosts) => [newPost, ...prevPosts]); // Add new post to the front of the array
+      setFilteredPosts((prevFiltered) => [newPost, ...prevFiltered]); // Update filtered posts
+    });
+
+    return () => {
+      socket.disconnect(); // Cleanup on component unmount
+    };
   }, []);
 
   const handleSearch = (query) => {
@@ -68,20 +82,34 @@ const BrowsePostsPage = () => {
         <div className="no-posts">No posts found...</div>
       ) : (
         <div className="posts-grid">
-          {filteredPosts.map(post => (
-            <div className="post-card" key={post._id}>
-              <h2>{post.title}</h2>
-              <p>{truncateMessage(post.message)}</p> {/* Truncated message */}
-              {post.tags && post.tags.length > 0 && ( // Conditionally render tags
-                <p className="post-tags">#{post.tags.join(', #')}</p>
-              )}
-              <a href={`/view/${post._id}`} className="view-post-link">View Post</a>
-            </div>
-          ))}
+          {filteredPosts.map(post => {
+            const now = new Date();
+            const postDate = new Date(post.createdAt);
+            const timeDifference = (now - postDate) / 1000 / 60 / 60;
+            const isNew = timeDifference < 12; // Check if post is under 12 hours old
+
+            return (
+              <div className="post-card" key={post._id}>
+                <h2>{post.title}</h2>
+                <p>{truncateMessage(post.message)}</p> {/* Truncated message */}
+                <div className="post-author">{post.author && `By: ${post.author}`}</div>
+                {post.tags && post.tags.length > 0 && ( // Conditionally render tags
+                  <p className="post-tags">#{post.tags.join(', #')}</p>
+                )}
+                <div className="post-footer">
+                  {isNew && post.newBadge && ( // Check if post is new and newBadge exists
+                    <span className="new-badge">New</span>
+                  )}
+                  <Link to={`/view/${post._id}`} className="view-post-link">View Post</Link>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
   );
 };
+
 
 export default BrowsePostsPage;

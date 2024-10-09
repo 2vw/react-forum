@@ -12,6 +12,8 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -27,6 +29,12 @@ const messageSchema = new mongoose.Schema({
     message: { type: String, required: true },
     comments: [{ text: String }],
     tags: { type: [String], default: [] },
+    createdAt: { type: Date, default: Date.now },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: { username: 'Anonymous' }
+    },
 });
 
 const Message = mongoose.model('Message', messageSchema);
@@ -61,6 +69,15 @@ app.get('/api/fetch', async (req, res) => {
       console.error("Error fetching messages:", error);
       res.status(500).json({ message: 'Error fetching messages' });
     }
+});
+
+// Simulated route to create a post (you would replace this with your actual logic)
+app.post('/api/posts', (req, res) => {
+  const newPost = req.body; // Get new post data
+
+  // Logic to save the new post to your database...
+
+  res.status(201).json(newPost); // Respond with created post
 });
 
 app.post('/api/comments', async (req, res) => {

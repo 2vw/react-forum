@@ -90,7 +90,6 @@ const ViewPostPage = () => {
         <button type="submit">Submit Comment</button>
       </form>
     </div>
-  );
-};
+  );};
 
 export default ViewPostPage;

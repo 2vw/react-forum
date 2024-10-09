@@ -16,7 +16,11 @@ const postSchema = new mongoose.Schema({
   },
   comments: [
       
-  ]
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Post', postSchema);
