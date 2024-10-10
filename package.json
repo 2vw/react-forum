@@ -1,6 +1,7 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "flask-forum",
+  "version": "0.1.5",
+  "description": "The frontend of the forum application",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -12,7 +13,7 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.8.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "4.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
