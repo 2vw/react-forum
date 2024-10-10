@@ -84,7 +84,7 @@ const ViewPostPage = () => {
         <ul class="comments-list">
           {post.comments.map((comment) => (
             <li key={comment._id}>
-              <strong></strong>: {comment.text}
+              <strong>{comment.username}</strong>: {comment.text}
             </li>
           ))}
         </ul>
