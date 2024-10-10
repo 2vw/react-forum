@@ -1,7 +1,6 @@
 // src/pages/BrowsePostsPage.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import HamburgerMenu from '../HamburgerCode';
 import LoadingModal from '../components/LoadingModal';
 import SearchBar from '../components/SearchBar';
 import io from 'socket.io-client'; // Import socket.io-client
