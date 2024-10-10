@@ -12,7 +12,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
+//FIXME: Fix user logins, use headers OR COOKIES (although headers are better in htis case)
 
 // Middleware
 app.use(cors());
